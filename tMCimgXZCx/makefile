@@ -1,0 +1,29 @@
+SRCS = tMCimgXZCx.c
+OBJS = $(SRCS:%.c=%.o)
+
+default: opt
+
+tMCimgXZCx: $(OBJS) makefile
+	gcc  -pedantic -Wall $(LINK_OPTIONS) -o tMCimgXZCx $(OBJS) -lm
+
+%.o: %.c makefile
+	gcc  -pedantic -Wall $(COMPILE_OPTIONS) -c  $< -o $@
+
+# debug: COMPILE_OPTIONS = -g -DDEBUG -DSINGLE_PREC -DNOT_POINTSRC
+# debug: COMPILE_OPTIONS = -g -DDEBUG -DSINGLE_PREC -DREFLECT
+debug:  COMPILE_OPTIONS = -g -DDEBUG -DSINGLE_PREC -DREFLECT -DMOMENTUM_TRANSFER -DDETAILED_TRACKING
+debug: LINK_OPTIONS = -g 
+debug: tMCimgXZCx
+
+# opt:    COMPILE_OPTIONS = -O3 -DSINGLE_PREC -DNOT_POINTSRC
+# opt:    COMPILE_OPTIONS = -O3 -DSINGLE_PREC -DREFLECT -DMOMENTUM_TRANSFER -DDETAILED_TRACKING
+opt:    COMPILE_OPTIONS = -O3 -DSINGLE_PREC -DREFLECT -DMOMENTUM_TRANSFER -DVESSEL_TRACKING
+double: COMPILE_OPTIONS = -O3 
+
+double opt: LINK_OPTIONS = -O3
+double opt: tMCimgXZCx
+
+
+clean: 
+	rm -rf * tMCimgXZCx *.*~ *~
+
